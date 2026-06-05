@@ -11,3 +11,20 @@ Colisiones: A la ciudad le generaremos colisiones de forma automática en Godot 
 ¿Tienes ya algún modelo .glb listo de la ciudad o de algún arma? Si los tienes, dime en qué carpeta de tu PC los tienes guardados y yo mismo uso un comando para copiarlos al proyecto y que aparezcan en Godot. ¡Manos a la obra!
 
 11:49 PM
+
+
+
+
+_________________________________________¡Exactamente! Pero para asegurarte de que lo que encuentres te sirva para nuestro proyecto en Godot, haz estos 3 pasos súper rápidos:
+
+Ve a la barra de búsqueda de Sketchfab y escribe: city block (o modular city).
+Una vez que carguen los resultados, fíjate en la parte de arriba y marca la casilla que dice "Downloadable" (Descargable). Si no marcas esto, te saldrán modelos hermosos pero que solo son para mirar y no se pueden descargar.
+(Opcional pero útil): Justo al lado de la barra de búsqueda suele haber un filtro de "Animated" (Animado) o "Low Poly". Si tu juego va a tener muchas ciudades, agregar la palabra low poly city block te dará modelos que consumen muy poca memoria, lo que es perfecto para juegos rápidos.
+Cuando encuentres uno que te guste:
+
+Haz clic en el modelo.
+Abajo a la izquierda del visor 3D verás un botón que dice "Download 3D Model".
+Al darle clic, te dará opciones de formato. Elige el que diga glTF o .glb (son prácticamente lo mismo para Godot) y dale a descargar.
+¡Descarga uno que te guste, déjalo en tu carpeta de Descargas, me avisas el nombre del archivo y yo lo meto a nuestro Godot al instante!
+
+12:54 PM

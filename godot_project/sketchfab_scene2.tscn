@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://ceqjagdnpm00l"]
+
+[ext_resource type="PackedScene" uid="uid://defqy3g18500v" path="res://assets/models/modular_city_gltf/scene.gltf" id="1_igya6"]
+
+[node name="Sketchfab_Scene" unique_id=633759262 instance=ExtResource("1_igya6")]
+
+[node name="Object_4" parent="Sketchfab_model/root/GLTF_SceneRootNode/water_0" parent_id_path=PackedInt32Array(916350755) index="0" unique_id=1883409717]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -455.49158, 0)
+
+[node name="Object_8" parent="Sketchfab_model/root/GLTF_SceneRootNode/city_1" parent_id_path=PackedInt32Array(1951059863) index="2" unique_id=1397921061]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3599128, 0, 0)
+
+[node name="Object_23" parent="Sketchfab_model/root/GLTF_SceneRootNode/city_1" parent_id_path=PackedInt32Array(1951059863) index="17" unique_id=2083801081]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.36916733, 0)
+
+[node name="Object_26" parent="Sketchfab_model/root/GLTF_SceneRootNode/city_1" parent_id_path=PackedInt32Array(1951059863) index="20" unique_id=975398286]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.005581796, -0.027414277, 0)
+
+[node name="Object_42" parent="Sketchfab_model/root/GLTF_SceneRootNode/FogPlanes_6" parent_id_path=PackedInt32Array(1672837003) index="0" unique_id=1843723728]
+transform = Transform3D(1.0000004, -5.9604645e-08, 0, 5.9604645e-08, 1.0000004, 0, 6.617445e-24, 3.970467e-23, 1, 14.822857, 5.2319345, 1.4360509)
