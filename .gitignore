@@ -1,0 +1,12 @@
+godot-cpp/bin/
+godot-cpp/gen/
+godot-cpp/.sconsign.dblite
+bin/
+gen/
+.sconsign.dblite
+godot_project/.godot/
+.vscode/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
