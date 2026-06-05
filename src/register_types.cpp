@@ -1,4 +1,5 @@
 #include "register_types.h"
+#include "vr_player.h"
 #include <gdextension_interface.h>
 #include <godot_cpp/core/defs.hpp>
 #include <godot_cpp/godot.hpp>
@@ -9,6 +10,8 @@ void initialize_vrcityfps_module(ModuleInitializationLevel p_level) {
     if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
         return;
     }
+    
+    ClassDB::register_class<VRPlayer>();
 }
 
 void uninitialize_vrcityfps_module(ModuleInitializationLevel p_level) {

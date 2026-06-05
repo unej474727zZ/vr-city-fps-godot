@@ -1,0 +1,102 @@
+[gd_scene load_steps=8 format=3 uid="uid://c6bxk84qj2q"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1"]
+
+[sub_resource type="Sky" id="Sky_2"]
+sky_material = SubResource("ProceduralSkyMaterial_1")
+
+[sub_resource type="Environment" id="Environment_3"]
+background_mode = 2
+sky = SubResource("Sky_2")
+
+[sub_resource type="BoxMesh" id="BoxMesh_4"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_Floor"]
+size = Vector3(50, 1, 50)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_Floor"]
+size = Vector3(50, 1, 50)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_Player"]
+
+[node name="Main" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_3")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.433013, 0.25, 0, 0.499999, 0.866025, -0.5, -0.75, 0.433013, 0, 5, 0)
+
+[node name="Floor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("BoxMesh_Floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape3D_Floor")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -3)
+mesh = SubResource("BoxMesh_4")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 0)
+mesh = SubResource("BoxMesh_4")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 0)
+mesh = SubResource("BoxMesh_4")
+
+[node name="VRPlayer" type="VRPlayer" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VRPlayer"]
+shape = SubResource("CapsuleShape3D_Player")
+
+[node name="Head" type="Node3D" parent="VRPlayer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="RemoteTransformLeft" type="RemoteTransform3D" parent="VRPlayer/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.032, 0, 0)
+remote_path = NodePath("../../HUD_VR/HBoxContainer/SubViewportContainerLeft/SubViewport/Camera3D")
+
+[node name="RemoteTransformRight" type="RemoteTransform3D" parent="VRPlayer/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.032, 0, 0)
+remote_path = NodePath("../../HUD_VR/HBoxContainer/SubViewportContainerRight/SubViewport/Camera3D")
+
+[node name="HUD_VR" type="CanvasLayer" parent="VRPlayer"]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VRPlayer/HUD_VR"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="SubViewportContainerLeft" type="SubViewportContainer" parent="VRPlayer/HUD_VR/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="VRPlayer/HUD_VR/HBoxContainer/SubViewportContainerLeft"]
+handle_input_locally = false
+size = Vector2i(960, 1080)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="VRPlayer/HUD_VR/HBoxContainer/SubViewportContainerLeft/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.032, 1.6, 0)
+
+[node name="SubViewportContainerRight" type="SubViewportContainer" parent="VRPlayer/HUD_VR/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="VRPlayer/HUD_VR/HBoxContainer/SubViewportContainerRight"]
+handle_input_locally = false
+size = Vector2i(960, 1080)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="VRPlayer/HUD_VR/HBoxContainer/SubViewportContainerRight/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.032, 1.6, 0)

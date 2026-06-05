@@ -1,0 +1,13 @@
+¡Entran AHORA MISMO si tú quieres! 😎
+
+De hecho, en nuestro plan, la ciudad y el entorno en formato .glb son el siguiente gran paso visual. Ya tenemos al jugador moviéndose en un espacio vacío, así que es el momento perfecto para meter tu ciudad o tus armas.
+
+Si ya tienes tus modelos .glb descargados o creados (ya sea la ciudad, edificios, o las armas), el proceso es súper sencillo:
+
+Crear la carpeta: Dentro de godot_project, crearemos una carpeta llamada assets/models/ (o algo similar).
+Copiar los GLB: Simplemente arrastramos y soltamos (o copiamos) tus archivos .glb dentro de esa carpeta. Godot los importará automáticamente en cuanto lo abras.
+Ponerlos en la escena: Arrastraremos el modelo de la ciudad a la escena principal para que tu jugador ya tenga piso, paredes y edificios donde moverse.
+Colisiones: A la ciudad le generaremos colisiones de forma automática en Godot para que tu personaje no se caiga al vacío y choque contra las paredes.
+¿Tienes ya algún modelo .glb listo de la ciudad o de algún arma? Si los tienes, dime en qué carpeta de tu PC los tienes guardados y yo mismo uso un comando para copiarlos al proyecto y que aparezcan en Godot. ¡Manos a la obra!
+
+11:49 PM
