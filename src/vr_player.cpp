@@ -18,7 +18,7 @@ VRPlayer::~VRPlayer() {
 
 void VRPlayer::_ready() {
     if (Engine::get_singleton()->is_editor_hint()) return;
-    head = get_node<Node3D>("Head");
+    head = Object::cast_to<Node3D>(find_child("Head", true, false));
 }
 
 void VRPlayer::_physics_process(double delta) {
@@ -32,7 +32,7 @@ void VRPlayer::_physics_process(double delta) {
 
     // Inclinación de la cabeza (Arriba/Abajo)
     float rot_input_y = input->get_action_strength("look_up") - input->get_action_strength("look_down");
-    pitch += rot_input_y * rotation_speed * delta;
+    pitch -= rot_input_y * rotation_speed * delta;
     pitch = std::clamp(pitch, -1.5f, 1.5f); // Limitar para no romper el cuello
 
     if (head) {

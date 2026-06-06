@@ -28,3 +28,25 @@ Al darle clic, te dará opciones de formato. Elige el que diga glTF o .glb (son 
 ¡Descarga uno que te guste, déjalo en tu carpeta de Descargas, me avisas el nombre del archivo y yo lo meto a nuestro Godot al instante!
 
 12:54 PM
+
+
+
+
+
+
+
+Ese error rojo me lo dice todo! Godot nos está gritando "¡No encuentro la Cabeza!". Tenemos dos detallitos que causaron esto, pero los resolvemos en 10 segundos:
+
+1. Tu Maniquí se quedó fuera del vehículo: Fíjate en tu lista de la izquierda. Tu SKM_UEFN_Mannequin está al mismo nivel que VRPlayer (son hermanos). Esto significa que cuando el jugador camine con el joystick, el maniquí se quedará botado flotando en el punto de inicio. 👉 Solución: Agarra tu SKM_UEFN_Mannequin, arrástralo hacia arriba y suéltalo exactamente encima de la palabra VRPlayer. Al hacerlo, se volverá su hijo y lo seguirá a todas partes.
+
+2. El código C++ se perdió: Como metimos tu cámara (Head) súper profundo adentro de los huesos del esqueleto, el código viejo de C++ ya no sabe cómo encontrarla. ¡Pero no te preocupes, acabo de escribir un código nuevo más inteligente que la busca como un radar sin importar dónde esté escondida!
+
+Para poder inyectar este nuevo código, hagamos el ritual de Windows:
+
+Mete el Maniquí adentro de VRPlayer como te dije arriba.
+Guarda tu proyecto (Ctrl + S).
+Cierra Godot por completo.
+Escríbeme "cerrado".
+Apenas me avises, compilo el radar en 5 segundos y ya no habrá ningún error rojo. ¡Avisa! 🔧🚀
+
+12:37 AM

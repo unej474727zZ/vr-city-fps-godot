@@ -61,7 +61,7 @@ size = Vector2i(960, 1080)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="VRPlayer/HUD_VR/HBoxContainer/SubViewportContainerLeft/SubViewport" unique_id=306914465]
-transform = Transform3D(1, 7.1054274e-15, -2.1316282e-14, 1.0658141e-14, 0.9999999, -5.33807e-15, -1.4210855e-14, -5.207458e-15, 0.9999999, -0.032000013, 1.2273971, 0.0063275183)
+transform = Transform3D(1.0000002, 1.4912433e-07, -2.9991615e-08, -2.7818096e-08, -4.3772157e-08, -0.9999999, -1.4702742e-07, 0.9999999, -4.3772154e-08, -0.03200002, 1.2273971, 0.006327523)
 
 [node name="SubViewportContainerRight" type="SubViewportContainer" parent="VRPlayer/HUD_VR/HBoxContainer" unique_id=1039437538]
 layout_mode = 2
@@ -74,7 +74,7 @@ size = Vector2i(960, 1080)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="VRPlayer/HUD_VR/HBoxContainer/SubViewportContainerRight/SubViewport" unique_id=1970544852]
-transform = Transform3D(1, 7.1054274e-15, -2.1316282e-14, 1.0658141e-14, 0.9999999, -5.33807e-15, -1.4210855e-14, -5.207458e-15, 0.9999999, 0.03199999, 1.2273971, 0.0063275183)
+transform = Transform3D(1.0000002, 1.4912433e-07, -2.9991615e-08, -2.7818096e-08, -4.3772157e-08, -0.9999999, -1.4702742e-07, 0.9999999, -4.3772154e-08, 0.031999998, 1.2273971, 0.0063275136)
 
 [node name="SKM_UEFN_Mannequin" parent="VRPlayer" unique_id=345156664 instance=ExtResource("1_h2yge")]
 transform = Transform3D(-0.375, 0, -3.278354e-08, 0, 0.375, 0, 3.278354e-08, 0, -0.375, 0, -0.34273124, 0)
@@ -84,16 +84,19 @@ transform = Transform3D(5.9546693e-08, -2.6274467e-09, -1, 0.00826548, 0.9999656
 bone_name = "head"
 bone_idx = 66
 
-[node name="Head" type="Node3D" parent="VRPlayer/SKM_UEFN_Mannequin/SKM_UEFN_Mannequin/Skeleton3D/BoneAttachment3D" unique_id=813364300]
-transform = Transform3D(-1.5701337e-07, 2.6665757, 0.022041285, 2.3443322e-07, -0.022041285, 2.6665757, 2.6666667, 1.5884369e-07, -2.388212e-07, 0, 0, 0)
+[node name="CorrectorCamara" type="Node3D" parent="VRPlayer/SKM_UEFN_Mannequin/SKM_UEFN_Mannequin/Skeleton3D/BoneAttachment3D" unique_id=475282555]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1.0000002, 0, 0, 0)
 
-[node name="RemoteTransformLeft" type="RemoteTransform3D" parent="VRPlayer/SKM_UEFN_Mannequin/SKM_UEFN_Mannequin/Skeleton3D/BoneAttachment3D/Head" unique_id=1908882169]
+[node name="Head" type="Node3D" parent="VRPlayer/SKM_UEFN_Mannequin/SKM_UEFN_Mannequin/Skeleton3D/BoneAttachment3D/CorrectorCamara" unique_id=813364300]
+transform = Transform3D(-1.5701336e-07, 2.6665757, 0.022041285, 2.3443319e-07, -0.022041285, 2.6665757, 2.6666667, 1.5884369e-07, -2.3882123e-07, 0, 0, 0)
+
+[node name="RemoteTransformLeft" type="RemoteTransform3D" parent="VRPlayer/SKM_UEFN_Mannequin/SKM_UEFN_Mannequin/Skeleton3D/BoneAttachment3D/CorrectorCamara/Head" unique_id=1908882169]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.032, 0, 0)
-remote_path = NodePath("../../../../../../HUD_VR/HBoxContainer/SubViewportContainerLeft/SubViewport/Camera3D")
+remote_path = NodePath("../../../../../../../HUD_VR/HBoxContainer/SubViewportContainerLeft/SubViewport/Camera3D")
 
-[node name="RemoteTransformRight" type="RemoteTransform3D" parent="VRPlayer/SKM_UEFN_Mannequin/SKM_UEFN_Mannequin/Skeleton3D/BoneAttachment3D/Head" unique_id=1839035210]
+[node name="RemoteTransformRight" type="RemoteTransform3D" parent="VRPlayer/SKM_UEFN_Mannequin/SKM_UEFN_Mannequin/Skeleton3D/BoneAttachment3D/CorrectorCamara/Head" unique_id=1839035210]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.032, 0, 0)
-remote_path = NodePath("../../../../../../HUD_VR/HBoxContainer/SubViewportContainerRight/SubViewport/Camera3D")
+remote_path = NodePath("../../../../../../../HUD_VR/HBoxContainer/SubViewportContainerRight/SubViewport/Camera3D")
 
 [node name="BoneAttachment3D2" type="BoneAttachment3D" parent="VRPlayer/SKM_UEFN_Mannequin/SKM_UEFN_Mannequin/Skeleton3D" parent_id_path=PackedInt32Array(345156664, 562830111) index="2" unique_id=401530332]
 transform = Transform3D(0.510157, -0.79058826, 0.338688, 0.35417795, -0.1657413, -0.9203734, 0.7837713, 0.5894909, 0.19545494, -0.51972854, -0.040883582, 1.0269351)
@@ -104,6 +107,6 @@ bone_idx = 39
 transform = Transform3D(0.13604192, 0.20900573, -0.09444748, -0.21082366, 0.15719764, 0.04419767, 0.09031684, 0.052121323, 0.24543305, 0, 0, 0)
 
 [node name="Sketchfab_Scene" parent="." unique_id=944117359 instance=ExtResource("1_ig7tw")]
-transform = Transform3D(0.9895258, 0, 0.14435619, 0, 1, 0, -0.14435619, 0, 0.9895258, 0.422, 0.592, -0.189)
+transform = Transform3D(0.9895258, 0, 0.14435619, 0, 1, 0, -0.14435619, 0, 0.9895258, 0, 0, 0)
 
 [editable path="VRPlayer/SKM_UEFN_Mannequin"]
