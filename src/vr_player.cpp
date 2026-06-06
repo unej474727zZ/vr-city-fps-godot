@@ -20,6 +20,11 @@ void VRPlayer::_ready() {
     if (Engine::get_singleton()->is_editor_hint()) return;
     head = Object::cast_to<Node3D>(find_child("Head", true, false));
     anim_player = Object::cast_to<AnimationPlayer>(find_child("AnimationPlayer", true, false));
+    weapon = Object::cast_to<Node3D>(find_child("Sketchfab_Scene", true, false));
+    
+    if (weapon) {
+        weapon_base_transform = weapon->get_transform();
+    }
 }
 
 void VRPlayer::_physics_process(double delta) {
@@ -71,13 +76,11 @@ void VRPlayer::_physics_process(double delta) {
         is_shooting = true;
     }
     
-    // Control de Animaciones
+    // Control de Animaciones (Solo Cuerpo)
     if (anim_player) {
-        String target_anim = "Combat/Idle"; // Por defecto (asumiendo que cargamos la librería como "Combat")
+        String target_anim = "Combat/Idle"; // Por defecto
         
-        if (is_shooting) {
-            target_anim = "Combat/Shoot";
-        } else if (!is_on_floor()) {
+        if (!is_on_floor()) {
             target_anim = "Combat/Jump";
         } else if (direction.length() > 0.0f) {
             // Chequear si vamos hacia atrás
@@ -89,11 +92,31 @@ void VRPlayer::_physics_process(double delta) {
             }
         }
         
-        // Reproducir la animación solo si cambió, o si es disparo (para forzar reinicio)
-        if (target_anim != current_anim || target_anim == "Combat/Shoot" || target_anim == "Combat/Jump") {
+        // Reproducir la animación solo si cambió
+        if (target_anim != current_anim) {
             anim_player->play(target_anim, 0.2f); // 0.2 segundos de transición (Blend)
             current_anim = target_anim;
         }
+    }
+    
+    // Sistema de Retroceso (Recoil Procedural) en el Arma
+    if (weapon) {
+        if (is_shooting) {
+            // Dar una patada hacia atrás (Z) y un poco hacia arriba (Y)
+            // Nota: Los ejes pueden variar dependiendo del modelo, ajustaremos si es necesario.
+            recoil_target = Vector3(0.0f, 0.05f, 0.15f); 
+        }
+        
+        // Interpolar el target hacia 0 (recuperación)
+        recoil_target = recoil_target.lerp(Vector3(), (float)delta * recoil_recovery_speed);
+        
+        // Interpolar el offset actual hacia el target (velocidad de la patada)
+        recoil_offset = recoil_offset.lerp(recoil_target, (float)delta * recoil_kick_speed);
+        
+        // Aplicar la transformación base + el offset local
+        Transform3D current_transform = weapon_base_transform;
+        current_transform.origin += current_transform.basis.xform(recoil_offset);
+        weapon->set_transform(current_transform);
     }
 
     set_velocity(velocity);

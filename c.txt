@@ -32,10 +32,7 @@ Al darle clic, te dará opciones de formato. Elige el que diga glTF o .glb (son 
 
 
 
-
-
-
-Ese error rojo me lo dice todo! Godot nos está gritando "¡No encuentro la Cabeza!". Tenemos dos detallitos que causaron esto, pero los resolvemos en 10 segundos:
+_____________________________________________________Ese error rojo me lo dice todo! Godot nos está gritando "¡No encuentro la Cabeza!". Tenemos dos detallitos que causaron esto, pero los resolvemos en 10 segundos:
 
 1. Tu Maniquí se quedó fuera del vehículo: Fíjate en tu lista de la izquierda. Tu SKM_UEFN_Mannequin está al mismo nivel que VRPlayer (son hermanos). Esto significa que cuando el jugador camine con el joystick, el maniquí se quedará botado flotando en el punto de inicio. 👉 Solución: Agarra tu SKM_UEFN_Mannequin, arrástralo hacia arriba y suéltalo exactamente encima de la palabra VRPlayer. Al hacerlo, se volverá su hijo y lo seguirá a todas partes.
 
@@ -50,3 +47,10 @@ Escríbeme "cerrado".
 Apenas me avises, compilo el radar en 5 segundos y ya no habrá ningún error rojo. ¡Avisa! 🔧🚀
 
 12:37 AM
+
+
+
+
+Para mezclar animaciones de diferentes esqueletos tendríamos que usar una herramienta avanzada de Godot llamada BoneMap, lo cual toma un rato configurar en la interfaz.
+
+Pero siendo honestos, para un juego en primera persona (FPS), NUNCA es buena idea usar animaciones completas para disparar, porque si la animación mueve un poquito la cabeza, tu cámara va a temblar y marear al jugador.

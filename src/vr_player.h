@@ -17,8 +17,16 @@ private:
     float pitch = 0.0f;
     Node3D* head = nullptr;
     AnimationPlayer* anim_player = nullptr;
+    Node3D* weapon = nullptr;
 
     String current_anim = "";
+    
+    // Sistema de Retroceso (Recoil)
+    Vector3 recoil_offset;
+    Vector3 recoil_target;
+    Transform3D weapon_base_transform;
+    float recoil_recovery_speed = 15.0f;
+    float recoil_kick_speed = 30.0f;
 
 protected:
     static void _bind_methods();
