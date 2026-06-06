@@ -54,9 +54,19 @@ void VRPlayer::_physics_process(double delta) {
         velocity.z = 0.0f;
     }
 
-    // Gravedad
+    // Gravedad y Salto
     if (!is_on_floor()) {
         velocity.y -= 9.8f * delta;
+    } else {
+        if (input->is_action_just_pressed("jump")) {
+            velocity.y = 5.0f; // Fuerza del salto
+        }
+    }
+
+    // Disparo
+    if (input->is_action_just_pressed("shoot")) {
+        UtilityFunctions::print("¡PUM! Disparo ejecutado.");
+        // Aquí conectaremos las balas y el sonido más adelante
     }
 
     set_velocity(velocity);
