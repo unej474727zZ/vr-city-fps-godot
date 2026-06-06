@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://b66fq1kf1ygnb" path="res://assets/models/weapons/m416.glb" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://sxxg4hxqesci" path="res://assets/models/player/GaspFix/Characters/UEFN_Mannequin/Meshes/SKM_UEFN_Mannequin.FBX" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://dbgk7lwd4vy17" path="res://assets/models/ciudad_lista.tscn" id="1_ig7tw"]
+[ext_resource type="AnimationLibrary" uid="uid://c8kwcmfjyarlv" path="res://combat_anims.res" id="3_1bvp3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1"]
 
@@ -105,6 +106,10 @@ bone_idx = 39
 
 [node name="Sketchfab_Scene" parent="VRPlayer/SKM_UEFN_Mannequin/SKM_UEFN_Mannequin/Skeleton3D/BoneAttachment3D2" unique_id=355159152 instance=ExtResource("1_0xm2m")]
 transform = Transform3D(0.13604192, 0.20900573, -0.09444748, -0.21082366, 0.15719764, 0.04419767, 0.09031684, 0.052121323, 0.24543305, 0, 0, 0)
+
+[node name="AnimationPlayer" parent="VRPlayer/SKM_UEFN_Mannequin" index="1" unique_id=95063185]
+root_node = NodePath("../SKM_UEFN_Mannequin")
+libraries/Combat = ExtResource("3_1bvp3")
 
 [node name="Sketchfab_Scene" parent="." unique_id=944117359 instance=ExtResource("1_ig7tw")]
 transform = Transform3D(0.9895258, 0, 0.14435619, 0, 1, 0, -0.14435619, 0, 0.9895258, 0, 0, 0)

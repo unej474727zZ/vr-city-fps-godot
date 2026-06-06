@@ -19,6 +19,7 @@ VRPlayer::~VRPlayer() {
 void VRPlayer::_ready() {
     if (Engine::get_singleton()->is_editor_hint()) return;
     head = Object::cast_to<Node3D>(find_child("Head", true, false));
+    anim_player = Object::cast_to<AnimationPlayer>(find_child("AnimationPlayer", true, false));
 }
 
 void VRPlayer::_physics_process(double delta) {
@@ -64,9 +65,35 @@ void VRPlayer::_physics_process(double delta) {
     }
 
     // Disparo
+    bool is_shooting = false;
     if (input->is_action_just_pressed("shoot")) {
         UtilityFunctions::print("¡PUM! Disparo ejecutado.");
-        // Aquí conectaremos las balas y el sonido más adelante
+        is_shooting = true;
+    }
+    
+    // Control de Animaciones
+    if (anim_player) {
+        String target_anim = "Combat/Idle"; // Por defecto (asumiendo que cargamos la librería como "Combat")
+        
+        if (is_shooting) {
+            target_anim = "Combat/Shoot";
+        } else if (!is_on_floor()) {
+            target_anim = "Combat/Jump";
+        } else if (direction.length() > 0.0f) {
+            // Chequear si vamos hacia atrás
+            Vector3 forward = -get_transform().basis.get_column(2);
+            if (direction.dot(forward) < -0.1f) {
+                target_anim = "Combat/Walk_B";
+            } else {
+                target_anim = "Combat/Run";
+            }
+        }
+        
+        // Reproducir la animación solo si cambió, o si es disparo (para forzar reinicio)
+        if (target_anim != current_anim || target_anim == "Combat/Shoot" || target_anim == "Combat/Jump") {
+            anim_player->play(target_anim, 0.2f); // 0.2 segundos de transición (Blend)
+            current_anim = target_anim;
+        }
     }
 
     set_velocity(velocity);

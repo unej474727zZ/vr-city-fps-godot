@@ -4,6 +4,7 @@
 #include <godot_cpp/classes/character_body3d.hpp>
 #include <godot_cpp/classes/node3d.hpp>
 #include <godot_cpp/classes/input.hpp>
+#include <godot_cpp/classes/animation_player.hpp>
 
 namespace godot {
 
@@ -15,6 +16,9 @@ private:
     float rotation_speed = 3.0f;
     float pitch = 0.0f;
     Node3D* head = nullptr;
+    AnimationPlayer* anim_player = nullptr;
+
+    String current_anim = "";
 
 protected:
     static void _bind_methods();
