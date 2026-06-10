@@ -21,15 +21,17 @@ func _run():
 
 func _add_collisions_recursive(node: Node, owner_node: Node):
 	if node is MeshInstance3D and node.mesh != null:
-		var static_body = StaticBody3D.new()
-		var col_shape = CollisionShape3D.new()
-		col_shape.shape = node.mesh.create_trimesh_shape()
-		
-		node.add_child(static_body)
-		static_body.owner = owner_node
-		
-		static_body.add_child(col_shape)
-		col_shape.owner = owner_node
+		var name_lower = node.name.to_lower()
+		if not ("sky" in name_lower or "cloud" in name_lower or "dome" in name_lower or "bounds" in name_lower or "sun" in name_lower):
+			var static_body = StaticBody3D.new()
+			var col_shape = CollisionShape3D.new()
+			col_shape.shape = node.mesh.create_trimesh_shape()
+			
+			node.add_child(static_body)
+			static_body.owner = owner_node
+			
+			static_body.add_child(col_shape)
+			col_shape.owner = owner_node
 		
 	for child in node.get_children():
 		_add_collisions_recursive(child, owner_node)

@@ -12,7 +12,8 @@ class VRPlayer : public CharacterBody3D {
     GDCLASS(VRPlayer, CharacterBody3D)
 
 private:
-    float speed = 5.0f;
+    float walk_speed = 1.5f;
+    float run_speed = 3.0f;
     float rotation_speed = 3.0f;
     float pitch = 0.0f;
     Node3D* head = nullptr;

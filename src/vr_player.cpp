@@ -51,10 +51,17 @@ void VRPlayer::_physics_process(double delta) {
     Vector2 input_dir = input->get_vector("move_left", "move_right", "move_forward", "move_backward");
     Vector3 direction = get_transform().basis.xform(Vector3(input_dir.x, 0, input_dir.y)).normalized();
 
+    float current_speed = walk_speed;
+    // L2 gatillo izquierdo
+    bool is_sprinting = input->is_action_pressed("sprint") || input->get_joy_axis(0, godot::JOY_AXIS_TRIGGER_LEFT) > 0.5f;
+    if (is_sprinting) {
+        current_speed = run_speed;
+    }
+
     Vector3 velocity = get_velocity();
     if (direction.length() > 0.0f) {
-        velocity.x = direction.x * speed;
-        velocity.z = direction.z * speed;
+        velocity.x = direction.x * current_speed;
+        velocity.z = direction.z * current_speed;
     } else {
         velocity.x = 0.0f;
         velocity.z = 0.0f;
@@ -87,8 +94,10 @@ void VRPlayer::_physics_process(double delta) {
             Vector3 forward = -get_transform().basis.get_column(2);
             if (direction.dot(forward) < -0.1f) {
                 target_anim = "Combat/Walk_B";
-            } else {
+            } else if (is_sprinting) {
                 target_anim = "Combat/Run";
+            } else {
+                target_anim = "Combat/Walk";
             }
         }
         
@@ -104,7 +113,7 @@ void VRPlayer::_physics_process(double delta) {
         if (is_shooting) {
             // Dar una patada hacia atrás (Z) y un poco hacia arriba (Y)
             // Nota: Los ejes pueden variar dependiendo del modelo, ajustaremos si es necesario.
-            recoil_target = Vector3(0.0f, 0.05f, 0.15f); 
+            recoil_target = Vector3(0.0f, 0.05f, -0.15f); 
         }
         
         // Interpolar el target hacia 0 (recuperación)
