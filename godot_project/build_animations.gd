@@ -61,15 +61,12 @@ func _run():
 	
 	var library = AnimationLibrary.new()
 	
-	# Definimos nuestro mapa de animaciones: "Nombre Final" : "Ruta Absoluta al Archivo"
 	var anim_sources = {
 		"Idle": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Idle/M_Neutral_Stand_Idle_Loop_Rifle.FBX",
 		"Run": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Run/M_Neutral_Run_Loop_F_Rifle.FBX",
 		"Walk_B": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Walk/M_Neutral_Walk_Loop_B_Rifle.FBX",
 		"Walk": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Walk/M_Neutral_Walk_Loop_F_Rifle.FBX",
-		"Jump": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Jump/M_Neutral_Jump_F_Start_Run_Lfoot_Rifle.FBX",
-		"Shoot": "D:/otroShooter/app/src/main/assets/FiringRifle-webp.glb",
-		"Prone": "D:/otroShooter/app/src/main/assets/ProneForward-webp.glb"
+		"Jump": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Jump/M_Neutral_Jump_F_Start_Run_Lfoot_Rifle.FBX"
 	}
 	
 	for anim_name in anim_sources.keys():
@@ -122,10 +119,10 @@ func _run():
 					if mixamo_to_ue5.has(bone_name):
 						bone_name = mixamo_to_ue5[bone_name] # Traducir hueso!
 
-				# ¡SÚPER FILTRO IN-PLACE! Ignorar posición de cualquier hueso central
+				# ¡SÚPER FILTRO IN-PLACE MEJORADO! 
+				# Identificar la pista de posición del root
 				var is_root_bone = (bone_name == "pelvis" or bone_name == "root" or bone_name == "mixamorig1_Hips" or bone_name.to_lower().find("hips") != -1)
-				if is_root_bone and (track_type == Animation.TYPE_POSITION_3D or track_path.ends_with(":position")):
-					continue
+				var is_root_pos = is_root_bone and (track_type == Animation.TYPE_POSITION_3D or track_path.ends_with(":position"))
 
 				var new_idx = final_anim.add_track(track_type)
 				
@@ -142,6 +139,11 @@ func _run():
 				for k in range(anim.track_get_key_count(i)):
 					var time = anim.track_get_key_time(i, k)
 					var val = anim.track_get_key_value(i, k)
+					
+					# Si es la posicion del root, ponemos X y Z a 0, pero conservamos Y
+					if is_root_pos and typeof(val) == TYPE_VECTOR3:
+						val = Vector3(0.0, val.y, 0.0)
+						
 					var trans = anim.track_get_key_transition(i, k)
 					final_anim.track_insert_key(new_idx, time, val, trans)
 			
