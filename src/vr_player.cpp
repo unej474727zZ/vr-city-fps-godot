@@ -20,7 +20,11 @@ void VRPlayer::_ready() {
     if (Engine::get_singleton()->is_editor_hint()) return;
     head = Object::cast_to<Node3D>(find_child("Head", true, false));
     anim_player = Object::cast_to<AnimationPlayer>(find_child("AnimationPlayer", true, false));
-    weapon = Object::cast_to<Node3D>(find_child("Sketchfab_Scene", true, false));
+    anim_tree = Object::cast_to<AnimationTree>(find_child("AnimationTree", true, false));
+    if (anim_tree) {
+        state_machine = anim_tree->get("parameters/StateMachine/playback");
+    }
+    weapon = Object::cast_to<Node3D>(find_child("Weapon", true, false));
     
     if (weapon) {
         weapon_base_transform = weapon->get_transform();
@@ -38,10 +42,18 @@ void VRPlayer::_physics_process(double delta) {
 
     // Inclinación de la cabeza (Arriba/Abajo)
     float rot_input_y = input->get_action_strength("look_up") - input->get_action_strength("look_down");
-    pitch -= rot_input_y * rotation_speed * delta;
+    pitch += rot_input_y * rotation_speed * delta;
     pitch = std::clamp(pitch, -1.5f, 1.5f); // Limitar para no romper el cuello
 
-    if (head) {
+    Node3D* head_bone = Object::cast_to<Node3D>(find_child("BoneAttachment3D", true, false));
+    if (head && head_bone) {
+        // Sincronizar posición con el hueso (para el bobbing de caminar)
+        head->set_global_position(head_bone->get_global_position());
+        // Mantener rotación pura e independiente de la animación del cuerpo
+        Vector3 rot = get_rotation();
+        rot.x = pitch;
+        head->set_global_rotation(rot);
+    } else if (head) {
         Vector3 rot = head->get_rotation();
         rot.x = pitch;
         head->set_rotation(rot);
@@ -70,10 +82,12 @@ void VRPlayer::_physics_process(double delta) {
     // Gravedad y Salto
     if (!is_on_floor()) {
         velocity.y -= 9.8f * delta;
-    } else {
-        if (input->is_action_just_pressed("jump")) {
-            velocity.y = 5.0f; // Fuerza del salto
-        }
+    } 
+    
+    if (input->is_action_just_pressed("jump")) {
+        // Salto incondicional para pruebas (si esto funciona, el input está bien)
+        velocity.y = 8.0f;
+        UtilityFunctions::print("¡Salto ejecutado!");
     }
 
     // Disparo
@@ -83,14 +97,43 @@ void VRPlayer::_physics_process(double delta) {
         is_shooting = true;
     }
     
-    // Control de Animaciones (Solo Cuerpo)
-    if (anim_player) {
-        String target_anim = "Combat/Idle"; // Por defecto
+    // Control de Animaciones (Con AnimationTree)
+    if (anim_tree && state_machine.is_valid()) {
+        String target_anim = "Combat_Idle";
         
+        if (!is_on_floor()) {
+            target_anim = "Combat_Jump";
+        } else if (direction.length() > 0.0f) {
+            Vector3 forward = -get_transform().basis.get_column(2);
+            if (direction.dot(forward) < -0.1f) {
+                target_anim = "Combat_Walk_B";
+            } else if (is_sprinting) {
+                target_anim = "Combat_Run";
+            } else {
+                target_anim = "Combat_Walk";
+            }
+        }
+        
+        if (target_anim != current_anim) {
+            state_machine->travel(target_anim);
+            current_anim = target_anim;
+        }
+
+        // Mezcla de Brazos para Disparar (Upper Body Blend)
+        if (input->is_action_pressed("shoot") || is_shooting) {
+            shoot_blend += 6.0f * delta; // Levantar arma rápido
+        } else {
+            shoot_blend -= 4.0f * delta; // Bajar arma más suave
+        }
+        shoot_blend = std::clamp(shoot_blend, 0.0f, 1.0f);
+        anim_tree->set("parameters/ShootBlend/blend_amount", shoot_blend);
+
+    } else if (anim_player) {
+        // Fallback de seguridad al viejo AnimationPlayer
+        String target_anim = "Combat/Idle";
         if (!is_on_floor()) {
             target_anim = "Combat/Jump";
         } else if (direction.length() > 0.0f) {
-            // Chequear si vamos hacia atrás
             Vector3 forward = -get_transform().basis.get_column(2);
             if (direction.dot(forward) < -0.1f) {
                 target_anim = "Combat/Walk_B";
@@ -100,10 +143,8 @@ void VRPlayer::_physics_process(double delta) {
                 target_anim = "Combat/Walk";
             }
         }
-        
-        // Reproducir la animación solo si cambió
         if (target_anim != current_anim) {
-            anim_player->play(target_anim, 0.2f); // 0.2 segundos de transición (Blend)
+            anim_player->play(target_anim, 0.2f);
             current_anim = target_anim;
         }
     }

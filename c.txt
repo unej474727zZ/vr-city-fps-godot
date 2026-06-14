@@ -51,6 +51,83 @@ Apenas me avises, compilo el radar en 5 segundos y ya no habrá ningún error ro
 
 
 
-Para mezclar animaciones de diferentes esqueletos tendríamos que usar una herramienta avanzada de Godot llamada BoneMap, lo cual toma un rato configurar en la interfaz.
+________________________________________________________Para mezclar animaciones de diferentes esqueletos tendríamos que usar una herramienta avanzada de Godot llamada BoneMap, lo cual toma un rato configurar en la interfaz.
 
 Pero siendo honestos, para un juego en primera persona (FPS), NUNCA es buena idea usar animaciones completas para disparar, porque si la animación mueve un poquito la cabeza, tu cámara va a temblar y marear al jugador.
+
+
+
+
+______________________________________________________mira lo d saltar esta haciendolo bien cuando lo ejecuto sigamos con todo lo dmas primero explica q vas a hacer y espera autorizacion
+12:44 AM
+¡Me alegra muchísimo saber que el salto ya funciona perfecto! Ya pasamos el susto más grande.
+
+Ahora sí, viene la parte divertida donde el personaje cobra vida como en un shooter moderno. Tal y como me ordenaste, aquí está el Plan Exacto de lo que haré para meter la animación de disparar mezclada con el movimiento. Lee los pasos y me dices si procedemos:
+
+Mi Plan de Acción:
+1. Configurar un AnimationTree en tu escena (Visual) Te guiaré para que agregues un nodo AnimationTree a tu personaje en Godot. Este nodo toma el control del AnimationPlayer y nos permite mezclar pistas como si fuéramos un DJ.
+
+2. Crear el "Filtro de Huesos" (Upper Body Blend) Dentro de ese AnimationTree, configuraremos un nodo llamado Blend2. A ese nodo le pondremos un "filtro" en el que seleccionaremos únicamente la columna vertebral, brazos y cabeza.
+
+Canal A (Todo el cuerpo): Recibirá las animaciones de caminar, correr, saltar y parado.
+Canal B (Solo torso y brazos): Recibirá exclusivamente la animación Combat/Shoot. El resultado es que las piernas hacen lo suyo, pero los brazos se levantan para disparar.
+3. Modificar el código C++ (vr_player.cpp) Como el AnimationTree va a tomar el volante, el código antiguo que usaba anim_player->play(...) dejará de funcionar. Yo modificaré las líneas necesarias en tu C++ para:
+
+Conectar el AnimationTree.
+Enviarle el estado correcto de movimiento (Walk, Run, Jump).
+Añadir la lógica del Gatillo: Cuando presiones el botón de disparar, el código en C++ le dirá al árbol de animación "Activa la mezcla de brazos al 100%", y cuando sueltes el botón "Baja la mezcla a 0%" (haciendo que los brazos bajen a la pose normal).
+4. Compilar (SCons) y Disfrutar Al final, compilaremos el proyecto de C++ como siempre lo haces, abriremos Godot y veremos a tu personaje disparando mientras corre.
+
+Ese es el plan técnico. ¿Me das autorización para empezar modificando el código de vr_player.cpp y guiarte en la configuración del árbol?
+
+12:44 AM
+
+
+
+
+__________________________________________________¡No te frustres, estamos a un pasito de terminar! Entiendo perfectamente qué pasó con esos errores rojos en tu captura.
+
+Al ponerle el perfil de "Humanoid" al maniquí para arreglar el disparo, Godot hizo algo que no nos avisó: Le cambió internamente el nombre a todos los huesos del cuerpo (ahora se llaman usando un estándar, por ejemplo LeftUpperArm en vez de upperarm_l, y ajustó su postura base).
+
+Como los huesos cambiaron de nombre, tus animaciones viejas de correr y caminar se perdieron porque están buscando los nombres viejos. ¡Por eso se quedó tieso en pose de "T"!
+
+La solución correcta y definitiva para tener un juego profesional, es hacer que las animaciones de correr y saltar también pasen por el sistema "Humanoid". Es hacer exactamente lo que acabas de hacer, pero con esos archivos. Sé que da un poco de pereza, pero se hace en 2 minutos:
+
+Ve a tu Sistema de Archivos y busca la carpeta donde están tus animaciones base: assets/models/player/GaspFix/_FixedRifle/
+Ahí verás carpetas con tus animaciones (Idle, Run, Walk, Jump).
+Haz doble clic en el archivo FBX de Run (correr).
+En la ventana de Importación Avanzada, selecciona el Skeleton3D a la izquierda.
+Ponle el mismo SkeletonProfileHumanoid en la derecha.
+Luego selecciona su AnimationPlayer (a la izquierda), y guárdalo en archivo como Run.res (tal como hicimos con el disparo).
+Dale a Reimportar.
+Repite este proceso súper rápido para las otras 4 animaciones:
+
+Idle -> lo guardas como Idle.res
+Walk_F -> lo guardas como Walk.res
+Walk_B -> lo guardas como Walk_B.res
+Jump -> lo guardas como Jump.res
+Una vez tengas esos 5 archivitos .res guardados: Ve a la ventana de Gestionar Animaciones de tu AnimationPlayer (donde agregamos el Shoot). Simplemente selecciona cada animación vieja (Idle, Run, etc.) y usa el botón de "Cargar" sobre ellas para reemplazarlas con estos nuevos archivos .res que ya tienen la matemática perfecta.
+
+¡Es el último esfuerzo de configuración, te lo prometo! Con esto TODO tu personaje hablará el mismo idioma y el resultado final valdrá la pena. Dime si te atascas.
+
+11:23 PM
+
+
+
+
+__________________________________________________Las capturas de pantalla que enviaste son oro puro. Tienes todo el derecho a estar molesto; ese cartel de alerta de Godot bloqueó el paso que te di.
+
+El problema es exactamente lo que dice la alerta: los nodos BoneAttachment están sueltos en la raíz de la escena (Main) y, como no están directamente adentro del esqueleto del personaje, están "ciegos" y no te dejan elegir los huesos en la lista.
+
+Para reconectarlos al esqueleto desde donde están, haz esto:
+
+Selecciona tu BoneAttachment3D (el de la cámara).
+Mira a la derecha en tu Inspector. Hay una casilla llamada Use External Skeleton. ¡Márcala (Actívala)!
+Al marcarla, te aparecerá justo debajo una nueva propiedad llamada External Skeleton que dice <vacío>.
+Haz clic en ese <vacío>, y busca/selecciona el esqueleto de tu personaje (probablemente se llame Skeleton3D o GeneralSkeleton y esté oculto dentro del primer nodo de tu lista, el @Node3D@...).
+¡Magia! Al asignarle el esqueleto, la opción de arriba Bone Name se desbloqueará sola. Haz clic ahí y ahora sí elige el hueso Head.
+Haz exactamente lo mismo con tu segundo nodo (BoneAttachment3D2, el del arma): Márcales el "Use External Skeleton", asígnale el mismo esqueleto, y elige el hueso RightHand.
+
+En el momento que hagas esto, el cartel de error desaparecerá, la cámara subirá a los ojos del personaje y el arma irá a la mano. Guarda y prueba el juego. ¡Me avisas!
+
+2:47 AM
