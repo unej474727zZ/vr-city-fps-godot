@@ -1,11 +1,33 @@
+# Build de godot-cpp / SCons
 godot-cpp/bin/
 godot-cpp/gen/
 godot-cpp/.sconsign.dblite
+.sconsign.dblite
 bin/
 gen/
-.sconsign.dblite
+
+# Artefactos de compilación
+*.obj
+*.o
+*.exp
+*.lib
+*.pdb
+*.ilk
+*.dll
+*.so
+*.dylib
+
+# Godot
 godot_project/.godot/
+godot_project/android/build/
+*.translation
+export_presets.cfg
+*.apk
+*.aab
+
+# IDE
 .vscode/
+.vs/
 *.sln
 *.vcxproj
 *.vcxproj.filters

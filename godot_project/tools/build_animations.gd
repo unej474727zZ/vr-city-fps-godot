@@ -63,11 +63,28 @@ func _run():
 	
 	var anim_sources = {
 		"Idle": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Idle/M_Neutral_Stand_Idle_Loop_Rifle.FBX",
-		"Run": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Run/M_Neutral_Run_Loop_F_Rifle.FBX",
-		"Walk_B": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Walk/M_Neutral_Walk_Loop_B_Rifle.FBX",
-		"Walk": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Walk/M_Neutral_Walk_Loop_F_Rifle.FBX",
 		"Jump": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Jump/M_Neutral_Jump_F_Start_Run_Lfoot_Rifle.FBX",
-		"Shoot": "D:/vr_city_fps/godot_project/assets/animations/FiringRifle.glb"
+		"Shoot": "D:/vr_city_fps/godot_project/assets/animations/FiringRifle.glb",
+		
+		# Walk 8-Way
+		"Walk_F": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Walk/M_Neutral_Walk_Loop_F_Rifle.FBX",
+		"Walk_B": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Walk/M_Neutral_Walk_Loop_B_Rifle.FBX",
+		"Walk_L": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Walk/M_Neutral_Walk_Loop_LL_Rifle.FBX",
+		"Walk_R": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Walk/M_Neutral_Walk_Loop_RR_Rifle.FBX",
+		"Walk_FL": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Walk/M_Neutral_Walk_Loop_FL_Rifle.FBX",
+		"Walk_FR": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Walk/M_Neutral_Walk_Loop_FR_Rifle.FBX",
+		"Walk_BL": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Walk/M_Neutral_Walk_Loop_BL_Rifle.FBX",
+		"Walk_BR": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Walk/M_Neutral_Walk_Loop_BR_Rifle.FBX",
+		
+		# Run 8-Way
+		"Run_F": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Run/M_Neutral_Run_Loop_F_Rifle.FBX",
+		"Run_B": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Run/M_Neutral_Run_Loop_B_Rifle.FBX",
+		"Run_L": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Run/M_Neutral_Run_Loop_LL_Rifle.FBX",
+		"Run_R": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Run/M_Neutral_Run_Loop_RR_Rifle.FBX",
+		"Run_FL": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Run/M_Neutral_Run_Loop_FL_Rifle.FBX",
+		"Run_FR": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Run/M_Neutral_Run_Loop_FR_Rifle.FBX",
+		"Run_BL": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Run/M_Neutral_Run_Loop_BL_Rifle.FBX",
+		"Run_BR": "D:/vr_city_fps/godot_project/assets/models/player/GaspFix/_FixedRifle/Run/M_Neutral_Run_Loop_BR_Rifle.FBX"
 	}
 	
 	for anim_name in anim_sources.keys():
@@ -117,8 +134,12 @@ func _run():
 				var bone_name = ""
 				if parts.size() > 1:
 					bone_name = parts[1]
-					if mixamo_to_ue5.has(bone_name):
-						bone_name = mixamo_to_ue5[bone_name] # Traducir hueso!
+					var lookup_name = bone_name
+					if lookup_name.begins_with("mixamorig_") and not lookup_name.begins_with("mixamorig1_"):
+						lookup_name = lookup_name.replace("mixamorig_", "mixamorig1_")
+					
+					if mixamo_to_ue5.has(lookup_name):
+						bone_name = mixamo_to_ue5[lookup_name] # Traducir hueso!
 
 				# ¡SÚPER FILTRO IN-PLACE MEJORADO! 
 				# Identificar la pista de posición del root
@@ -128,7 +149,7 @@ func _run():
 				var new_idx = final_anim.add_track(track_type)
 				
 				if bone_name != "":
-					final_anim.track_set_path(new_idx, NodePath("Skeleton3D:" + bone_name))
+					final_anim.track_set_path(new_idx, NodePath("GeneralSkeleton:" + bone_name))
 				else:
 					final_anim.track_set_path(new_idx, NodePath(track_path))
 					
@@ -148,10 +169,10 @@ func _run():
 					var trans = anim.track_get_key_transition(i, k)
 					final_anim.track_insert_key(new_idx, time, val, trans)
 			
-			if anim_name == "Idle" or anim_name == "Run" or anim_name == "Walk_B" or anim_name == "Walk":
-				final_anim.loop_mode = Animation.LOOP_LINEAR
-			else:
+			if anim_name == "Jump" or anim_name == "Shoot":
 				final_anim.loop_mode = Animation.LOOP_NONE
+			else:
+				final_anim.loop_mode = Animation.LOOP_LINEAR
 				
 			library.add_animation(anim_name, final_anim)
 			print("✅ Éxito: ", anim_name, " agregada a la librería.")

@@ -2,33 +2,18 @@
 import os
 import sys
 
-# Llama al archivo de compilación de godot-cpp para que configure todo automáticamente
+# godot-cpp configura toolchain, plataforma, target y arquitectura automáticamente.
 env = SConscript("godot-cpp/SConstruct")
 
-# Configuramos nuestra propia extensión
+# Extensión propia
 env.Append(CPPPATH=["src/"])
 sources = Glob("src/*.cpp")
 
-# Compilamos nuestra librería compartida dentro de la carpeta godot_project/bin
-if env["platform"] == "windows":
-    library = env.SharedLibrary(
-        "godot_project/bin/vrcityfps{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
-        source=sources,
-    )
-elif env["platform"] == "linux":
-    library = env.SharedLibrary(
-        "godot_project/bin/vrcityfps{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
-        source=sources,
-    )
-elif env["platform"] == "macos":
-    library = env.SharedLibrary(
-        "godot_project/bin/vrcityfps{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
-        source=sources,
-    )
-elif env["platform"] == "android":
-    library = env.SharedLibrary(
-        "godot_project/bin/vrcityfps{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
-        source=sources,
-    )
+# Nombre de salida: vrcityfps.<platform>.<target>.<arch>.<ext> en godot_project/bin
+# (SHLIBPREFIX aporta el "lib" en Android/Linux/macOS, y SHLIBSUFFIX la extensión).
+library = env.SharedLibrary(
+    "godot_project/bin/vrcityfps{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
+    source=sources,
+)
 
 Default(library)
