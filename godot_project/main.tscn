@@ -5,6 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://dbgk7lwd4vy17" path="res://assets/models/ciudad_lista.tscn" id="1_ig7tw"]
 [ext_resource type="AnimationLibrary" uid="uid://c8kwcmfjyarlv" path="res://combat_anims.res" id="3_1bvp3"]
 [ext_resource type="AnimationNodeBlendSpace2D" uid="uid://dmrnm2eguu1xj" path="res://locomotion_blendspace.tres" id="3_locomotion"]
+[ext_resource type="Script" path="res://player.gd" id="2_player_gd"]
+[ext_resource type="Script" path="res://gamepad_debugger.gd" id="7_gamepad_deb"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1"]
 
@@ -75,8 +77,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=142922664]
 shape = SubResource("BoxShape3D_Floor")
 
-[node name="VRPlayer" type="VRPlayer" parent="." unique_id=206266695]
-transform = Transform3D(0.1556452, 0, -0.987813, 0, 1, 0, 0.987813, 0, 0.1556452, 0, 3, 0)
+[node name="VRPlayer" type="CharacterBody3D" parent="." unique_id=206266695]
+transform = Transform3D(0.1556452, 0, -0.987813, 0, 1, 0, 0.987813, 0, 0.1556452, 0, 1.2, 0)
+script = ExtResource("2_player_gd")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="VRPlayer" unique_id=2056377284]
 shape = SubResource("CapsuleShape3D_h2yge")
@@ -230,6 +233,14 @@ grow_vertical = 2
 text = "+"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="GamepadDebug" type="Label" parent="VRPlayer/HUD"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 650.0
+offset_bottom = 60.0
+text = "Mando conectado. Presiona cualquier botón..."
+script = ExtResource("7_gamepad_deb")
 
 [node name="Sketchfab_Scene" parent="." unique_id=944117359 instance=ExtResource("1_ig7tw")]
 transform = Transform3D(0.9895258, 0, 0.14435619, 0, 1, 0, -0.14435619, 0, 0.9895258, 0.21871048, 1.6153109, -0.14202905)

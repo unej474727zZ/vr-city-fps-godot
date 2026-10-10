@@ -43,20 +43,16 @@ void VRPlayer::_physics_process(double delta) {
     // Inclinación de la cabeza (Arriba/Abajo)
     float rot_input_y = input->get_action_strength("look_up") - input->get_action_strength("look_down");
     pitch += rot_input_y * rotation_speed * delta;
-    pitch = std::clamp(pitch, -1.5f, 1.5f); // Limitar para no romper el cuello
+    pitch = std::clamp(pitch, -1.25f, 1.25f); // Limitar para no romper el cuello
 
     Node3D* head_bone = Object::cast_to<Node3D>(find_child("BoneAttachment3D", true, false));
     if (head && head_bone) {
         // Sincronizar posición con el hueso (para el bobbing de caminar)
         head->set_global_position(head_bone->get_global_position());
-        // Mantener rotación pura e independiente de la animación del cuerpo
-        Vector3 rot = get_rotation();
-        rot.x = pitch;
-        head->set_global_rotation(rot);
+        // Rotación local pura: evita volteos y giros invertidos
+        head->set_rotation(Vector3(pitch, 0.0f, 0.0f));
     } else if (head) {
-        Vector3 rot = head->get_rotation();
-        rot.x = pitch;
-        head->set_rotation(rot);
+        head->set_rotation(Vector3(pitch, 0.0f, 0.0f));
     }
 
     // Movimiento con el Joystick Izquierdo
@@ -64,7 +60,7 @@ void VRPlayer::_physics_process(double delta) {
     Vector3 direction = get_transform().basis.xform(Vector3(input_dir.x, 0, input_dir.y)).normalized();
 
     float current_speed = walk_speed;
-    // L2 gatillo izquierdo
+    // L2 gatillo izquierdo o L1
     bool is_sprinting = input->is_action_pressed("sprint") || input->get_joy_axis(0, godot::JOY_AXIS_TRIGGER_LEFT) > 0.5f;
     if (is_sprinting) {
         current_speed = run_speed;
@@ -79,15 +75,17 @@ void VRPlayer::_physics_process(double delta) {
         velocity.z = 0.0f;
     }
 
-    // Gravedad y Salto
+    // Gravedad y Salto (SOLO permitido si está en el suelo)
     if (!is_on_floor()) {
-        velocity.y -= 9.8f * delta;
-    } 
-    
-    if (input->is_action_just_pressed("jump")) {
-        // Salto incondicional para pruebas (si esto funciona, el input está bien)
-        velocity.y = 8.0f;
-        UtilityFunctions::print("¡Salto ejecutado!");
+        velocity.y -= 19.6f * delta;
+    } else {
+        if (velocity.y < 0.0f) {
+            velocity.y = -0.5f;
+        }
+        if (input->is_action_just_pressed("jump")) {
+            velocity.y = 5.2f;
+            UtilityFunctions::print("¡Salto ejecutado!");
+        }
     }
 
     // Disparo
