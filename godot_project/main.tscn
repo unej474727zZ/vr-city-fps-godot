@@ -19,7 +19,7 @@ background_mode = 2
 sky = SubResource("Sky_2")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_Floor"]
-size = Vector3(50, 1, 50)
+size = Vector3(1000, 1, 1000)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h2yge"]
 radius = 0.4
@@ -42,6 +42,7 @@ advance_mode = 2
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_t2"]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_t3"]
+switch_mode = 2
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_cegan"]

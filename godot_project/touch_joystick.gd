@@ -1,4 +1,4 @@
-class_name VirtualJoystick
+class_name MobileVirtualJoystick
 extends Control
 
 ## Virtual joystick touchscreen control inspired by mobile shooters (like accionCity)
@@ -18,7 +18,7 @@ var _current_vector: Vector2 = Vector2.ZERO
 @onready var _tip: Control = $Base/Tip
 
 func _ready() -> void:
-	_center_pos = _base.position + _base.size / 2.0
+	_center_pos = _base.size / 2.0
 	_reset_tip()
 
 func _reset_tip() -> void:
@@ -30,9 +30,6 @@ func _gui_input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
 		if event.pressed and _touch_index == -1:
 			_touch_index = event.index
-			if joystick_mode == 1:
-				_base.global_position = event.position - _base.size / 2.0
-				_center_pos = _base.position + _base.size / 2.0
 			_update_stick(event.position)
 		elif not event.pressed and event.index == _touch_index:
 			_touch_index = -1
