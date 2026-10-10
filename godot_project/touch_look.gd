@@ -42,15 +42,13 @@ func _apply_look(relative: Vector2) -> void:
 	# Rotar cuerpo horizontalmente (Yaw)
 	_player.rotate_y(-relative.x * sensitivity)
 	
-	# Inyectar inclinación vertical (Pitch) suave directamente en las acciones de Godot
-	# Con escala de sensibilidad adecuada para evitar saltos bruscos
-	var pitch_delta: float = -relative.y * 0.05
-	if pitch_delta > 0.0:
-		Input.action_press("look_up", clamp(pitch_delta, 0.0, 1.0))
-		Input.action_release("look_down")
-	elif pitch_delta < 0.0:
-		Input.action_press("look_down", clamp(-pitch_delta, 0.0, 1.0))
-		Input.action_release("look_up")
+	# Inyectar una pequeña inclinación vertical (Pitch) a las acciones de Godot
+	# Reducido el factor a 0.01 para evitar que la cámara se descontrole
+	var strength: float = clamp(abs(relative.y) * 0.01, 0.0, 1.0)
+	if relative.y < 0.0:
+		Input.action_press("look_up", strength)
+	elif relative.y > 0.0:
+		Input.action_press("look_down", strength)
 	
 	await get_tree().process_frame
 	Input.action_release("look_up")

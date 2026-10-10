@@ -5,6 +5,7 @@ extends Button
 @export var action_name: String = ""
 
 func _ready() -> void:
+	focus_mode = Control.FOCUS_NONE
 	button_down.connect(_on_down)
 	button_up.connect(_on_up)
 
