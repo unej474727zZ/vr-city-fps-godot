@@ -42,7 +42,11 @@ func _physics_process(delta: float) -> void:
 	if head:
 		# Sincronizar posición con el hueso de la cabeza para el balanceo al caminar
 		if head_bone:
-			head.global_position = head_bone.global_position
+			var target_pos = head_bone.global_position
+			# Red de seguridad: la cabeza nunca puede alejarse verticalmente del cuerpo
+			if abs(target_pos.y - global_position.y) > 2.0:
+				target_pos.y = global_position.y + 1.5
+			head.global_position = target_pos
 		# Rotación local pura: evita volteos extraños o rotación dentro del pecho
 		head.rotation.x = pitch
 		head.rotation.y = 0.0
