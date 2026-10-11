@@ -52,8 +52,6 @@ animation = &"Combat/Walk_BR"
 animation = &"Combat/Run_F"
 
 [resource]
-auto_triangles = false
-triangles = PackedInt32Array(0, 2, 3, 0, 1, 3, 0, 2, 4, 0, 1, 4, 1, 3, 5, 1, 4, 6, 2, 3, 7, 2, 4, 8, 1, 6, 9, 1, 5, 9, 2, 8, 10, 2, 7, 10, 3, 7, 11, 3, 5, 11, 4, 8, 12, 4, 6, 12, 5, 11, 13, 5, 9, 13, 6, 12, 14, 6, 9, 14, 7, 11, 15, 7, 10, 15, 8, 12, 16, 8, 10, 16)
 blend_point_0/node = SubResource("AnimationNodeAnimation_476pu")
 blend_point_0/pos = Vector2(0, 0)
 blend_point_0/name = &"0"
@@ -105,3 +103,5 @@ blend_point_15/name = &"15"
 blend_point_16/node = SubResource("AnimationNodeAnimation_ubvrp")
 blend_point_16/pos = Vector2(1, -1)
 blend_point_16/name = &"16"
+auto_triangles = false
+triangles = PackedInt32Array(0, 2, 3, 0, 1, 3, 0, 2, 4, 0, 1, 4, 1, 3, 5, 1, 4, 6, 2, 3, 7, 2, 4, 8, 1, 6, 9, 1, 5, 9, 2, 8, 10, 2, 7, 10, 3, 7, 11, 3, 5, 11, 4, 8, 12, 4, 6, 12, 5, 11, 13, 5, 9, 13, 6, 12, 14, 6, 9, 14, 7, 11, 15, 7, 10, 15, 8, 12, 16, 8, 10, 16)

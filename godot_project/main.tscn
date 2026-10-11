@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://cyb2iia0cw4bk" path="res://player.gd" id="2_player_gd"]
 [ext_resource type="AnimationLibrary" path="res://combat_anims.res" id="3_1bvp3"]
 [ext_resource type="AnimationNodeBlendSpace2D" uid="uid://dmrnm2eguu1xj" path="res://locomotion_blendspace.tres" id="3_locomotion"]
-[ext_resource type="Script" uid="uid://dt476hcwg8y3e" path="res://gamepad_debugger.gd" id="7_gamepad_deb"]
+[ext_resource type="Script" path="res://gamepad_debugger.gd" id="7_gamepad_deb"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1"]
 
