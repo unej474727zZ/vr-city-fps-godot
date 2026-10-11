@@ -32,7 +32,7 @@ advance_on_start = true
 fadein_time = 0.05
 fadeout_time = 0.1
 filter_enabled = true
-filters = ["GeneralSkeleton:clavicle_l", "GeneralSkeleton:clavicle_r", "GeneralSkeleton:hand_l", "GeneralSkeleton:hand_r", "GeneralSkeleton:head", "GeneralSkeleton:lowerarm_l", "GeneralSkeleton:lowerarm_r", "GeneralSkeleton:neck_01", "GeneralSkeleton:neck_02", "GeneralSkeleton:spine_01", "GeneralSkeleton:spine_02", "GeneralSkeleton:spine_03", "GeneralSkeleton:spine_04", "GeneralSkeleton:spine_05", "GeneralSkeleton:upperarm_l", "GeneralSkeleton:upperarm_r"]
+filters = ["GeneralSkeleton:Chest", "GeneralSkeleton:Head", "GeneralSkeleton:LeftHand", "GeneralSkeleton:LeftLowerArm", "GeneralSkeleton:LeftShoulder", "GeneralSkeleton:LeftUpperArm", "GeneralSkeleton:Neck", "GeneralSkeleton:RightHand", "GeneralSkeleton:RightLowerArm", "GeneralSkeleton:RightShoulder", "GeneralSkeleton:RightUpperArm", "GeneralSkeleton:Spine", "GeneralSkeleton:UpperChest", "GeneralSkeleton:neck_02", "GeneralSkeleton:spine_02", "GeneralSkeleton:spine_03"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7mycd"]
 animation = &"Combat/Jump"
