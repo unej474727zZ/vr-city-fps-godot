@@ -1,0 +1,66 @@
+[gd_resource type="AnimationNodeBlendSpace2D" format=3]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_b8m4u"]
+animation = &"Combat/Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0nm1x"]
+animation = &"Combat/Walk_F"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ffpbd"]
+animation = &"Combat/Run_F"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dlijg"]
+animation = &"Combat/Walk_B"
+
+[resource]
+blend_point_0/node = SubResource("AnimationNodeAnimation_b8m4u")
+blend_point_0/pos = Vector2(0, 0)
+blend_point_0/name = &"0"
+blend_point_1/node = SubResource("AnimationNodeAnimation_0nm1x")
+blend_point_1/pos = Vector2(0, 0.5)
+blend_point_1/name = &"1"
+blend_point_2/node = SubResource("AnimationNodeAnimation_ffpbd")
+blend_point_2/pos = Vector2(0, 1)
+blend_point_2/name = &"2"
+blend_point_3/node = SubResource("AnimationNodeAnimation_dlijg")
+blend_point_3/pos = Vector2(0, -0.5)
+blend_point_3/name = &"3"
+blend_point_4/node = SubResource("AnimationNodeAnimation_dlijg")
+blend_point_4/pos = Vector2(0, -1)
+blend_point_4/name = &"4"
+blend_point_5/node = SubResource("AnimationNodeAnimation_0nm1x")
+blend_point_5/pos = Vector2(-0.5, 0)
+blend_point_5/name = &"5"
+blend_point_6/node = SubResource("AnimationNodeAnimation_0nm1x")
+blend_point_6/pos = Vector2(0.5, 0)
+blend_point_6/name = &"6"
+blend_point_7/node = SubResource("AnimationNodeAnimation_ffpbd")
+blend_point_7/pos = Vector2(-1, 0)
+blend_point_7/name = &"7"
+blend_point_8/node = SubResource("AnimationNodeAnimation_ffpbd")
+blend_point_8/pos = Vector2(1, 0)
+blend_point_8/name = &"8"
+blend_point_9/node = SubResource("AnimationNodeAnimation_0nm1x")
+blend_point_9/pos = Vector2(-0.5, 0.5)
+blend_point_9/name = &"9"
+blend_point_10/node = SubResource("AnimationNodeAnimation_0nm1x")
+blend_point_10/pos = Vector2(0.5, 0.5)
+blend_point_10/name = &"10"
+blend_point_11/node = SubResource("AnimationNodeAnimation_ffpbd")
+blend_point_11/pos = Vector2(-1, 1)
+blend_point_11/name = &"11"
+blend_point_12/node = SubResource("AnimationNodeAnimation_ffpbd")
+blend_point_12/pos = Vector2(1, 1)
+blend_point_12/name = &"12"
+blend_point_13/node = SubResource("AnimationNodeAnimation_dlijg")
+blend_point_13/pos = Vector2(-0.5, -0.5)
+blend_point_13/name = &"13"
+blend_point_14/node = SubResource("AnimationNodeAnimation_dlijg")
+blend_point_14/pos = Vector2(0.5, -0.5)
+blend_point_14/name = &"14"
+blend_point_15/node = SubResource("AnimationNodeAnimation_dlijg")
+blend_point_15/pos = Vector2(-1, -1)
+blend_point_15/name = &"15"
+blend_point_16/node = SubResource("AnimationNodeAnimation_dlijg")
+blend_point_16/pos = Vector2(1, -1)
+blend_point_16/name = &"16"

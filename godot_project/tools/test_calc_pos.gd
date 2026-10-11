@@ -1,0 +1,25 @@
+@tool
+extends SceneTree
+
+func _init():
+	var packed = load("res://assets/animations/Rifleidle.glb") as PackedScene
+	var scene = packed.instantiate()
+	var ap = scene.find_child("AnimationPlayer", true, false) as AnimationPlayer
+	var arm = scene.find_child("Armature", true, false) as Node3D
+	var skel = scene.find_child("Skeleton3D", true, false) as Skeleton3D
+	var head = skel.find_bone("mixamorig1_Head")
+	var rh = skel.find_bone("mixamorig1_RightHand")
+	var foot = skel.find_bone("mixamorig1_LeftFoot")
+	
+	ap.play(ap.get_animation_list()[0])
+	ap.advance(0.1)
+	
+	var head_pos = arm.transform * skel.get_bone_global_pose(head).origin
+	var rh_pos = arm.transform * skel.get_bone_global_pose(rh).origin
+	var foot_pos = arm.transform * skel.get_bone_global_pose(foot).origin
+	
+	print("Head in Rifleidle space: ", head_pos)
+	print("RightHand in Rifleidle space: ", rh_pos)
+	print("LeftFoot in Rifleidle space: ", foot_pos)
+	scene.queue_free()
+	quit()
