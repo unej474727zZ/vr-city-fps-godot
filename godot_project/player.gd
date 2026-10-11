@@ -90,7 +90,7 @@ func _physics_process(delta: float) -> void:
 		var blend_pos: Vector2 = Vector2(input_dir.x, -input_dir.y) * blend_scale
 		anim_tree.set("parameters/StateMachine/Locomotion/blend_position", blend_pos)
 		
-		if is_on_floor() and state_machine and state_machine.get_current_node() != "Locomotion":
+		if is_on_floor() and velocity.y <= 0.0 and state_machine and state_machine.get_current_node() != "Locomotion":
 			state_machine.travel("Locomotion")
 
 	# 7. Retroceso Procedural del Arma (Recoil)
